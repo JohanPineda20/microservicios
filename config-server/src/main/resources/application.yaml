@@ -1,0 +1,12 @@
+server:
+  port: 8081
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          default-label : config-server #La rama
+          uri: https://github.com/JohanPineda20/microservicios #El repositorio
+          search-paths: config #Carpeta donde estarán todos los archivos de config de cada microservicio
+  application:
+    name: config-server
