@@ -1,8 +1,7 @@
 spring:
   application:
-    name: microservicio
+    name: eureka-server
   cloud:
     config:
       enabled: true
       uri: http://localhost:8081 #ruta del config server
-
