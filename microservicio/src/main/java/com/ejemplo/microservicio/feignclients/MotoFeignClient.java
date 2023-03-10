@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "microservicio3")
+@FeignClient(name = "microservicio-moto")
 public interface MotoFeignClient {
     @PostMapping
     public Moto save (@RequestBody Moto moto);
