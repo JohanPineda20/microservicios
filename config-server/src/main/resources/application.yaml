@@ -7,6 +7,6 @@ spring:
         git:
           default-label : eureka #La rama donde están los archivos de configuracion
           uri: https://github.com/JohanPineda20/microservicios #El repositorio
-          search-paths: config #Carpeta donde estan todos los archivos de config de cada microservicio
+          search-paths: config-data #Carpeta donde estan todos los archivos de config de cada microservicio
   application:
     name: config-server
