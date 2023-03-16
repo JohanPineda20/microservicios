@@ -43,7 +43,7 @@ public class UsuarioController {
 
 
     //RestTemplate
-    @CircuitBreaker(name="carroCircuitBreaker", fallbackMethod = "defaultt")
+    @CircuitBreaker(name="carroCircuitBreaker", fallbackMethod = "fallbackGetCarro")
     @GetMapping("/carro/{usuarioId}")
     public ResponseEntity<List<Carro>> getCarros(@PathVariable int usuarioId){
         List<Carro> carros = usuarioService.getCarros(usuarioId);
@@ -52,7 +52,7 @@ public class UsuarioController {
         }
         return ResponseEntity.ok(carros);
     }
-    @CircuitBreaker(name="motoCircuitBreaker", fallbackMethod = "defaultt")
+    @CircuitBreaker(name="motoCircuitBreaker", fallbackMethod = "fallbackGetMoto")
     @GetMapping("/moto/{usuarioId}")
     public ResponseEntity<List<Moto>> getMotos(@PathVariable int usuarioId){
         List<Moto> motos = usuarioService.getMotos(usuarioId);
@@ -63,19 +63,19 @@ public class UsuarioController {
     }
 
     //FeignClients
-    @CircuitBreaker(name="carroCircuitBreaker", fallbackMethod = "defaultt")
+    @CircuitBreaker(name="carroCircuitBreaker", fallbackMethod = "fallbackSaveCarro")
     @PostMapping("/carro/{usuarioId}")
     public ResponseEntity<Carro> saveCarro(@RequestBody Carro carro, @PathVariable int usuarioId){
         Carro nuevoCarro= usuarioService.saveCarro(carro, usuarioId);
         return ResponseEntity.ok(nuevoCarro);
     }
-    @CircuitBreaker(name="motoCircuitBreaker", fallbackMethod = "defaultt")
+    @CircuitBreaker(name="motoCircuitBreaker", fallbackMethod = "fallbackSaveMoto")
     @PostMapping("/moto/{usuarioId}")
     public ResponseEntity<Moto> saveMoto(@RequestBody Moto moto, @PathVariable int usuarioId){
         Moto nuevaMoto= usuarioService.saveMoto(moto, usuarioId);
         return ResponseEntity.ok(nuevaMoto);
     }
-    @CircuitBreaker(name="todosCircuitBreaker", fallbackMethod = "defaultt")
+    @CircuitBreaker(name="todosCircuitBreaker", fallbackMethod = "fallbackGetTodos")
     @GetMapping("/todos/{usuarioId}")
     public ResponseEntity<Map<String,Object>> getCarrosyMotods(@PathVariable int usuarioId){
         Map<String,Object> resultado = usuarioService.getMotosyCarros(usuarioId);
@@ -84,9 +84,23 @@ public class UsuarioController {
 
 
     //metodos para el circuit breaker
-    private ResponseEntity<String> defaultt(@PathVariable int usuarioId){
-        return new ResponseEntity("Usuario con id:" + usuarioId+"el microservicio a llamar está fallando", HttpStatus.OK);
+    private ResponseEntity<String> fallbackGetCarro(int usuarioId, RuntimeException exception){
+        return new ResponseEntity("Usuario con id: " + usuarioId+" el microservicio a llamar está fallando", HttpStatus.OK);
 
     }
+    private ResponseEntity<String> fallbackGetMoto(int usuarioId, RuntimeException exception){
+        return new ResponseEntity("Usuario con id: " + usuarioId + " el microservicio a llamar está fallando", HttpStatus.OK);
 
+    }
+    private ResponseEntity<String> fallbackSaveCarro(Carro carro, int usuarioId, RuntimeException exception){
+        return new ResponseEntity("Usuario con id: " + usuarioId + " el microservicio a llamar está fallando", HttpStatus.OK);
+
+    }
+    private ResponseEntity<String> fallbackSaveMoto(Moto moto, int usuarioId, RuntimeException exception){
+        return new ResponseEntity("Usuario con id: " + usuarioId + " el microservicio a llamar está fallando", HttpStatus.OK);
+
+    }
+    private ResponseEntity<String> fallbackGetTodos(int usuarioId, RuntimeException exception){
+        return new ResponseEntity("Usuario con id: " + usuarioId + " el microservicio a llamar está fallando", HttpStatus.OK);
+    }
 }
