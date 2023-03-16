@@ -37,10 +37,10 @@ public class UsuarioService {
 
 //RestTemplate
     public List<Carro> getCarros(int usuarioId){
-        return restTemplate.getForObject("http://localhost:8080/carro/usuario/" + usuarioId, List.class);
+        return restTemplate.getForObject("http://microservicio-carro/carro/usuario/" + usuarioId, List.class);
     }
     public List<Moto> getMotos(int usuarioId){
-        return restTemplate.getForObject("http://localhost:8080/moto/usuario/" + usuarioId, List.class);
+        return restTemplate.getForObject("http://microservicio-moto/moto/usuario/" + usuarioId, List.class);
     }
 
     
